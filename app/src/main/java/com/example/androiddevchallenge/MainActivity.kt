@@ -23,9 +23,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
+import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
+import com.example.androiddevchallenge.details.PuppyDetails
 import com.example.androiddevchallenge.model.Puppy
 import com.example.androiddevchallenge.puppylist.PuppiesListViewModel
 import com.example.androiddevchallenge.puppylist.PuppyListContent
@@ -50,16 +54,31 @@ class MainActivity : AppCompatActivity() {
 fun MyApp(puppiesListViewModel: PuppiesListViewModel) {
     val navController = rememberNavController()
     val puppies by puppiesListViewModel.puppies.observeAsState(emptyList())
+    val navigation by puppiesListViewModel.navigation.observeAsState()
 
+    navigation?.let {
+
+        navController.navigate("profile/${it.puppy.name}/${it.puppy.profilePicture}")
+    }
     NavHost(navController, startDestination = "puppyList") {
         composable("puppyList") {
             PuppyListContent(puppies = puppies) {
                 puppiesListViewModel.onPuppyClicked(it)
             }
         }
-        composable("profileList") { /* TODO */ }
+        composable(
+            "profile/{name}/{picture}",
+            arguments = listOf(
+                navArgument("name") { type = NavType.StringType },
+                navArgument("picture") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            PuppyDetails(
+                backStackEntry.arguments?.getString("name")!!,
+                backStackEntry.arguments?.getString("picture")!!
+            )
+        }
     }
-
 }
 
 @Preview("Light Theme", widthDp = 360, heightDp = 640)

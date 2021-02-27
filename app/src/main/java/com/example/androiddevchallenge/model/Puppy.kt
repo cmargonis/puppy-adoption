@@ -15,7 +15,9 @@
  */
 package com.example.androiddevchallenge.model
 
-data class Puppy(val name: String, val profilePicture: String) {
+import java.io.Serializable
+
+data class Puppy(val name: String, val profilePicture: String) : Serializable {
 
     companion object {
         private const val tempPic = "https://images.dog.ceo/breeds/akita/An_Akita_Inu_resting.jpg"

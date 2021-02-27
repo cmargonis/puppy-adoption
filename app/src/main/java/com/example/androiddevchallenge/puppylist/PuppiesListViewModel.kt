@@ -25,7 +25,10 @@ class PuppiesListViewModel : ViewModel() {
     private val _puppies = MutableLiveData(Puppy.puppyFixture())
     val puppies: LiveData<List<Puppy>> = _puppies
 
-    fun onPuppyClicked(puppy: Puppy) {
+    private val _navigation: MutableLiveData<NavigateToDetails> = MutableLiveData()
+    val navigation: LiveData<NavigateToDetails> = _navigation
 
+    fun onPuppyClicked(puppy: Puppy) {
+        _navigation.value = NavigateToDetails(puppy = puppy)
     }
 }
