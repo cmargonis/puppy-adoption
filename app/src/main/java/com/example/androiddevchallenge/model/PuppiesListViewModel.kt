@@ -15,16 +15,20 @@
  */
 package com.example.androiddevchallenge.model
 
-data class Puppy(val name: String, val profilePicture: String) {
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 
-    companion object {
-        private const val tempPic = "https://images.dog.ceo/breeds/akita/An_Akita_Inu_resting.jpg"
+class PuppiesListViewModel : ViewModel() {
 
-        fun puppyFixture() = listOf(
-            Puppy("Chris", tempPic),
-            Puppy("Rocky", tempPic),
-            Puppy("Rex", tempPic),
-            Puppy("jax", tempPic)
-        )
-    }
+    private val tempPic = "https://images.dog.ceo/breeds/akita/An_Akita_Inu_resting.jpg"
+    private val puppyItems = listOf(
+        Puppy("Chris", tempPic),
+        Puppy("Rocky", tempPic),
+        Puppy("Rex", tempPic),
+        Puppy("jax", tempPic)
+    )
+
+    private val _puppies = MutableLiveData(puppyItems)
+    val puppies: LiveData<List<Puppy>> = _puppies
 }

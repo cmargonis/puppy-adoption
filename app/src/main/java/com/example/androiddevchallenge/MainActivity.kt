@@ -18,8 +18,10 @@ package com.example.androiddevchallenge
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,6 +35,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -41,17 +45,20 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.androiddevchallenge.model.PuppiesListViewModel
 import com.example.androiddevchallenge.model.Puppy
 import com.example.androiddevchallenge.ui.theme.MyTheme
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 class MainActivity : AppCompatActivity() {
 
+    private val viewModel: PuppiesListViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MyTheme {
-                MyApp()
+                MyApp(viewModel)
             }
         }
     }
@@ -59,18 +66,24 @@ class MainActivity : AppCompatActivity() {
 
 // Start building your app here!
 @Composable
-fun MyApp() {
-    val tempPic = "https://images.dog.ceo/breeds/akita/An_Akita_Inu_resting.jpg"
-    val items = listOf(
-        Puppy("Chris", tempPic),
-        Puppy("Rocky", tempPic),
-        Puppy("Rex", tempPic),
-        Puppy("jax", tempPic)
-    )
+fun MyApp(puppiesListViewModel: PuppiesListViewModel) {
+    val puppies by puppiesListViewModel.puppies.observeAsState(emptyList())
+
+    PuppyListContent(puppies = puppies) {
+        Log.i("PuppyList", "Puppy clicked: $it")
+    }
+}
+
+@Composable
+fun PuppyListContent(puppies: List<Puppy>, onPuppyClicked: (Puppy) -> Unit) {
     Surface(color = MaterialTheme.colors.background) {
         LazyColumn(Modifier.fillMaxWidth()) {
-            items(items) { puppy ->
-                Row {
+            items(puppies) { puppy ->
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .clickable { onPuppyClicked(puppy) }
+                ) {
                     CoilImage(
                         data = puppy.profilePicture,
                         contentDescription = "${puppy.name}'s picture",
@@ -107,7 +120,7 @@ fun MyApp() {
 @Composable
 fun LightPreview() {
     MyTheme {
-        MyApp()
+        PuppyListContent(puppies = Puppy.puppyFixture(), onPuppyClicked = { /*TODO*/ })
     }
 }
 
@@ -115,6 +128,6 @@ fun LightPreview() {
 @Composable
 fun DarkPreview() {
     MyTheme(darkTheme = true) {
-        MyApp()
+        PuppyListContent(puppies = Puppy.puppyFixture(), onPuppyClicked = { /*TODO*/ })
     }
 }
