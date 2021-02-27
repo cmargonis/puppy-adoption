@@ -17,7 +17,12 @@ package com.example.androiddevchallenge.model
 
 import java.io.Serializable
 
-data class Puppy(val name: String, val profilePicture: String, val dogoBiography: String) :
+data class Puppy(
+    val id: Int,
+    val name: String,
+    val profilePicture: String,
+    val dogoBiography: String
+) :
     Serializable {
 
     companion object {
@@ -40,21 +45,25 @@ data class Puppy(val name: String, val profilePicture: String, val dogoBiography
 
         fun puppyFixtures() = listOf(
             Puppy(
+                id = 1,
                 name = "Ivan",
                 profilePicture = "https://images.dog.ceo/breeds/mastiff-bull/n02108422_754.jpg",
                 dogoBiography = biography
             ),
             Puppy(
+                id = 2,
                 name = "Rocky",
                 profilePicture = "https://images.dog.ceo/breeds/akita/An_Akita_Inu_resting.jpg",
                 dogoBiography = biography
             ),
             Puppy(
+                id = 3,
                 name = "Rex",
                 profilePicture = "https://images.dog.ceo/breeds/malinois/n02105162_2714.jpg",
                 dogoBiography = biography
             ),
             Puppy(
+                id = 4,
                 name = "Jax",
                 profilePicture = "https://images.dog.ceo/breeds/spaniel-cocker/bella2.jpeg",
                 dogoBiography = biography

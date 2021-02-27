@@ -19,10 +19,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.androiddevchallenge.model.Puppy
+import com.example.androiddevchallenge.model.PuppyRepository
+import com.example.androiddevchallenge.model.PuppyRepositoryImpl
 
-class PuppiesListViewModel : ViewModel() {
+class PuppiesListViewModel(private val puppyRepository: PuppyRepository = PuppyRepositoryImpl()) :
+    ViewModel() {
 
-    private val _puppies = MutableLiveData(Puppy.puppyFixtures())
+    private val _puppies = MutableLiveData(puppyRepository.getPuppies())
     val puppies: LiveData<List<Puppy>> = _puppies
 
     private val _navigation: MutableLiveData<NavigateToDetails> = MutableLiveData()
