@@ -28,6 +28,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -36,15 +38,18 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.R
+import com.example.androiddevchallenge.puppylist.PuppiesListViewModel
 import dev.chrisbanes.accompanist.coil.CoilImage
 
 @Composable
-fun PuppyDetails(name: String, picture: String) {
+fun PuppyDetails(viewModel: PuppiesListViewModel) {
+    val puppy by viewModel.puppy.observeAsState()
+
     Surface(color = MaterialTheme.colors.background) {
         Row(Modifier.fillMaxWidth()) {
             CoilImage(
-                data = picture,
-                contentDescription = "$name's picture",
+                data = puppy!!.profilePicture,
+                contentDescription = "${puppy!!.name}'s picture",
                 modifier = Modifier
                     .width(64.dp)
                     .height(64.dp),
@@ -67,7 +72,7 @@ fun PuppyDetails(name: String, picture: String) {
                     Log.i("tag", "Load state: $state")
                 }
             )
-            Text(text = name)
+            Text(text = puppy!!.name)
         }
     }
 }

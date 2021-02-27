@@ -58,7 +58,7 @@ fun MyApp(puppiesListViewModel: PuppiesListViewModel) {
 
     navigation?.let {
 
-        navController.navigate("profile/${it.puppy.name}/${it.puppy.profilePicture}")
+        navController.navigate("profile?puppyId=${it.puppy.id}")
     }
     NavHost(navController, startDestination = "puppyList") {
         composable("puppyList") {
@@ -67,16 +67,10 @@ fun MyApp(puppiesListViewModel: PuppiesListViewModel) {
             }
         }
         composable(
-            "profile/{name}/{picture}",
-            arguments = listOf(
-                navArgument("name") { type = NavType.StringType },
-                navArgument("picture") { type = NavType.StringType }
-            )
-        ) { backStackEntry ->
-            PuppyDetails(
-                backStackEntry.arguments?.getString("name")!!,
-                backStackEntry.arguments?.getString("picture")!!
-            )
+            "profile?puppyId={puppyId}",
+            arguments = listOf(navArgument("puppyId") { type = NavType.IntType })
+        ) {
+            PuppyDetails(puppiesListViewModel)
         }
     }
 }

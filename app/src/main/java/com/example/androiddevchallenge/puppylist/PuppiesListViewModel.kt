@@ -22,8 +22,7 @@ import com.example.androiddevchallenge.model.Puppy
 import com.example.androiddevchallenge.model.PuppyRepository
 import com.example.androiddevchallenge.model.PuppyRepositoryImpl
 
-class PuppiesListViewModel(private val puppyRepository: PuppyRepository = PuppyRepositoryImpl()) :
-    ViewModel() {
+class PuppiesListViewModel(puppyRepository: PuppyRepository = PuppyRepositoryImpl()) : ViewModel() {
 
     private val _puppies = MutableLiveData(puppyRepository.getPuppies())
     val puppies: LiveData<List<Puppy>> = _puppies
@@ -31,7 +30,11 @@ class PuppiesListViewModel(private val puppyRepository: PuppyRepository = PuppyR
     private val _navigation: MutableLiveData<NavigateToDetails> = MutableLiveData()
     val navigation: LiveData<NavigateToDetails> = _navigation
 
+    private val _puppy: MutableLiveData<Puppy> = MutableLiveData()
+    val puppy: LiveData<Puppy> = _puppy
+
     fun onPuppyClicked(puppy: Puppy) {
         _navigation.value = NavigateToDetails(puppy = puppy)
+        _puppy.value = puppy
     }
 }
