@@ -21,14 +21,10 @@ import androidx.lifecycle.ViewModel
 
 class PuppiesListViewModel : ViewModel() {
 
-    private val tempPic = "https://images.dog.ceo/breeds/akita/An_Akita_Inu_resting.jpg"
-    private val puppyItems = listOf(
-        Puppy("Chris", tempPic),
-        Puppy("Rocky", tempPic),
-        Puppy("Rex", tempPic),
-        Puppy("jax", tempPic)
-    )
-
-    private val _puppies = MutableLiveData(puppyItems)
+    private val _puppies = MutableLiveData(Puppy.puppyFixture())
     val puppies: LiveData<List<Puppy>> = _puppies
+
+    fun onPuppyClicked(puppy: Puppy) {
+
+    }
 }

@@ -70,7 +70,7 @@ fun MyApp(puppiesListViewModel: PuppiesListViewModel) {
     val puppies by puppiesListViewModel.puppies.observeAsState(emptyList())
 
     PuppyListContent(puppies = puppies) {
-        Log.i("PuppyList", "Puppy clicked: $it")
+        puppiesListViewModel.onPuppyClicked(it)
     }
 }
 
