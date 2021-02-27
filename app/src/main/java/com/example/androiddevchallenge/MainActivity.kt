@@ -85,7 +85,7 @@ fun MyApp(puppiesListViewModel: PuppiesListViewModel) {
 @Composable
 fun LightPreview() {
     MyTheme {
-        PuppyListContent(puppies = Puppy.puppyFixture(), onPuppyClicked = { /*TODO*/ })
+        PuppyListContent(puppies = Puppy.puppyFixtures(), onPuppyClicked = { /*TODO*/ })
     }
 }
 
@@ -93,6 +93,6 @@ fun LightPreview() {
 @Composable
 fun DarkPreview() {
     MyTheme(darkTheme = true) {
-        PuppyListContent(puppies = Puppy.puppyFixture(), onPuppyClicked = { /*TODO*/ })
+        PuppyListContent(puppies = Puppy.puppyFixtures(), onPuppyClicked = { /*TODO*/ })
     }
 }

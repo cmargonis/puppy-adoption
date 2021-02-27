@@ -22,7 +22,7 @@ import com.example.androiddevchallenge.model.Puppy
 
 class PuppiesListViewModel : ViewModel() {
 
-    private val _puppies = MutableLiveData(Puppy.puppyFixture())
+    private val _puppies = MutableLiveData(Puppy.puppyFixtures())
     val puppies: LiveData<List<Puppy>> = _puppies
 
     private val _navigation: MutableLiveData<NavigateToDetails> = MutableLiveData()
