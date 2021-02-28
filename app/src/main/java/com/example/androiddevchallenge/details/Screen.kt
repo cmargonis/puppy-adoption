@@ -26,8 +26,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -37,6 +39,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.puppylist.PuppiesListViewModel
@@ -47,54 +50,64 @@ fun PuppyDetails(viewModel: PuppiesListViewModel) {
     val puppy by viewModel.puppy.observeAsState()
 
     Surface(color = MaterialTheme.colors.background) {
-        LazyColumn(
-            Modifier.fillMaxWidth()
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = stringResource(id = R.string.about_me)) },
+                    elevation = 8.dp
+                )
+            }
         ) {
-            item {
-                Surface(
-                    elevation = 4.dp,
-                    shape = MaterialTheme.shapes.medium.copy(
-                        bottomEnd = CornerSize(16.dp),
-                        bottomStart = CornerSize(16.dp)
-                    )
-                ) {
-                    CoilImage(
-                        data = puppy!!.profilePicture,
-                        contentDescription = "${puppy!!.name}'s picture",
-
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .animateContentSize(),
-                        contentScale = ContentScale.FillWidth,
-                        loading = {
-                            Box(Modifier.matchParentSize()) {
-                                CircularProgressIndicator(Modifier.align(Alignment.Center))
+            LazyColumn(
+                Modifier.fillMaxWidth()
+            ) {
+                item {
+                    Surface(
+                        elevation = 4.dp,
+                        shape = MaterialTheme.shapes.medium.copy(
+                            bottomEnd = CornerSize(16.dp),
+                            bottomStart = CornerSize(16.dp),
+                            topEnd = CornerSize(0.dp),
+                            topStart = CornerSize(0.dp)
+                        )
+                    ) {
+                        CoilImage(
+                            data = puppy!!.profilePicture,
+                            contentDescription = "${puppy!!.name}'s picture",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .animateContentSize(),
+                            contentScale = ContentScale.FillWidth,
+                            loading = {
+                                Box(Modifier.matchParentSize()) {
+                                    CircularProgressIndicator(Modifier.align(Alignment.Center))
+                                }
+                            },
+                            error = {
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_error),
+                                    colorFilter = ColorFilter.tint(color = colorResource(id = R.color.design_default_color_error)),
+                                    modifier = Modifier.size(16.dp),
+                                    contentScale = ContentScale.None,
+                                    contentDescription = null
+                                )
+                            },
+                            onRequestCompleted = { state ->
+                                Log.i("tag", "Load state: $state")
                             }
-                        },
-                        error = {
-                            Image(
-                                painter = painterResource(id = R.drawable.ic_error),
-                                colorFilter = ColorFilter.tint(color = colorResource(id = R.color.design_default_color_error)),
-                                modifier = Modifier.size(16.dp),
-                                contentScale = ContentScale.None,
-                                contentDescription = null
-                            )
-                        },
-                        onRequestCompleted = { state ->
-                            Log.i("tag", "Load state: $state")
-                        }
+                        )
+                    }
+                    Text(
+                        text = puppy!!.name,
+                        modifier = Modifier.padding(start = 12.dp, top = 8.dp),
+                        style = MaterialTheme.typography.h3
+                    )
+                    Text(
+                        text = puppy!!.dogoBiography,
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.body1
                     )
                 }
-                Text(
-                    text = puppy!!.name,
-                    modifier = Modifier.padding(start = 12.dp, top = 8.dp),
-                    style = MaterialTheme.typography.h3
-                )
-                Text(
-                    text = puppy!!.dogoBiography,
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.body1
-                )
             }
         }
     }

@@ -21,10 +21,15 @@ import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.model.Puppy
 import com.example.androiddevchallenge.ui.widgets.PuppyCard
 
@@ -34,8 +39,20 @@ data class NavigateToDetails(val puppy: Puppy)
 @Composable
 fun PuppyListContent(puppies: List<Puppy>, onPuppyClicked: (Puppy) -> Unit) {
     Surface(color = MaterialTheme.colors.background) {
-        LazyVerticalGrid(cells = GridCells.Adaptive(180.dp), modifier = Modifier.fillMaxWidth()) {
-            items(puppies) { puppy -> PuppyCard(puppy, onPuppyClicked) }
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = stringResource(id = R.string.app_name)) },
+                    elevation = 8.dp
+                )
+            }
+        ) {
+            LazyVerticalGrid(
+                cells = GridCells.Adaptive(180.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                items(puppies) { puppy -> PuppyCard(puppy, onPuppyClicked) }
+            }
         }
     }
 }
