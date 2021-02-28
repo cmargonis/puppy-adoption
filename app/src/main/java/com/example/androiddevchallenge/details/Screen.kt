@@ -53,6 +53,7 @@ fun PuppyDetails(viewModel: PuppiesListViewModel) {
         Scaffold(
             topBar = {
                 TopAppBar(
+                    backgroundColor = MaterialTheme.colors.primary,
                     title = { Text(text = stringResource(id = R.string.about_me)) },
                     elevation = 8.dp
                 )
