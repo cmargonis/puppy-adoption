@@ -16,13 +16,14 @@
 package com.example.androiddevchallenge.details
 
 import android.util.Log
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -46,33 +47,55 @@ fun PuppyDetails(viewModel: PuppiesListViewModel) {
     val puppy by viewModel.puppy.observeAsState()
 
     Surface(color = MaterialTheme.colors.background) {
-        Row(Modifier.fillMaxWidth()) {
-            CoilImage(
-                data = puppy!!.profilePicture,
-                contentDescription = "${puppy!!.name}'s picture",
-                modifier = Modifier
-                    .width(64.dp)
-                    .height(64.dp),
-                contentScale = ContentScale.Fit,
-                loading = {
-                    Box(Modifier.matchParentSize()) {
-                        CircularProgressIndicator(Modifier.align(Alignment.Center))
-                    }
-                },
-                error = {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_error),
-                        colorFilter = ColorFilter.tint(color = colorResource(id = R.color.design_default_color_error)),
-                        modifier = Modifier.size(16.dp),
-                        contentScale = ContentScale.None,
-                        contentDescription = null
+        LazyColumn(
+            Modifier.fillMaxWidth()
+        ) {
+            item {
+                Surface(
+                    elevation = 4.dp,
+                    shape = MaterialTheme.shapes.medium.copy(
+                        bottomEnd = CornerSize(16.dp),
+                        bottomStart = CornerSize(16.dp)
                     )
-                },
-                onRequestCompleted = { state ->
-                    Log.i("tag", "Load state: $state")
+                ) {
+                    CoilImage(
+                        data = puppy!!.profilePicture,
+                        contentDescription = "${puppy!!.name}'s picture",
+
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .animateContentSize(),
+                        contentScale = ContentScale.FillWidth,
+                        loading = {
+                            Box(Modifier.matchParentSize()) {
+                                CircularProgressIndicator(Modifier.align(Alignment.Center))
+                            }
+                        },
+                        error = {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_error),
+                                colorFilter = ColorFilter.tint(color = colorResource(id = R.color.design_default_color_error)),
+                                modifier = Modifier.size(16.dp),
+                                contentScale = ContentScale.None,
+                                contentDescription = null
+                            )
+                        },
+                        onRequestCompleted = { state ->
+                            Log.i("tag", "Load state: $state")
+                        }
+                    )
                 }
-            )
-            Text(text = puppy!!.name)
+                Text(
+                    text = puppy!!.name,
+                    modifier = Modifier.padding(start = 12.dp, top = 8.dp),
+                    style = MaterialTheme.typography.h3
+                )
+                Text(
+                    text = puppy!!.dogoBiography,
+                    modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.body1
+                )
+            }
         }
     }
 }
