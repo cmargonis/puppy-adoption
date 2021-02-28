@@ -19,6 +19,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -35,6 +36,7 @@ import com.example.androiddevchallenge.puppylist.PuppiesListViewModel
 import com.example.androiddevchallenge.puppylist.PuppyListContent
 import com.example.androiddevchallenge.ui.theme.MyTheme
 
+@ExperimentalFoundationApi
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: PuppiesListViewModel by viewModels()
@@ -50,6 +52,7 @@ class MainActivity : AppCompatActivity() {
 }
 
 // Start building your app here!
+@ExperimentalFoundationApi
 @Composable
 fun MyApp(puppiesListViewModel: PuppiesListViewModel) {
     val navController = rememberNavController()
@@ -75,6 +78,7 @@ fun MyApp(puppiesListViewModel: PuppiesListViewModel) {
     }
 }
 
+@ExperimentalFoundationApi
 @Preview("Light Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun LightPreview() {
@@ -83,6 +87,7 @@ fun LightPreview() {
     }
 }
 
+@ExperimentalFoundationApi
 @Preview("Dark Theme", widthDp = 360, heightDp = 640)
 @Composable
 fun DarkPreview() {
