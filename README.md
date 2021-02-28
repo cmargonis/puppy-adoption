@@ -1,15 +1,18 @@
-# Puppy Adoption
+# Doggo Adoption
 
 ![Workflow result](https://github.com/cmargonis/puppy-adoption/workflows/Check/badge.svg)
 
 
 ## :scroll: Description
-<!--- Describe your app in one or two sentences -->
+In this app we can browse through some very famous doggos, see
+their carefully selected profile pictures, and read some things that
+these friends have written about themselves! :dog:
 
 
 ## :bulb: Motivation and Context
-<!--- Optionally point readers to interesting parts of your submission. -->
-<!--- What are you especially proud of? -->
+While in the process of understanding Jetpack Compose, actually putting
+a puppy app together as part of a challenge, was a nice way to get
+comfortable with Compose.
 
 
 ## :camera_flash: Screenshots
